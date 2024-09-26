@@ -45,14 +45,7 @@ def login_device(id):
     for device in devices:
         if device['id'] == id:
             device['username'] = username
-            device['logged_in'] = True
-            return jsonify({"status": "success", "message": "Device logged in successfully"}), 200
 
-
-    for device in devices:
-        if device['id'] == id:
-            device['username'] = username
-            device['logged_in'] = True
 
             # 进行登录请求
             login_data = {
@@ -62,6 +55,7 @@ def login_device(id):
             try:
                 response = requests.post('http://localhost:3000/api/login', json=login_data)
                 response.raise_for_status()
+                device['logged_in'] = True
                 return jsonify(response.json()), response.status_code
 
             except requests.exceptions.RequestException as e:
