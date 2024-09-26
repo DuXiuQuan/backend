@@ -5,7 +5,7 @@ import requests
 app = Flask(__name__)
 
 devices = []
-id_counter = 0  # 设备 ID 计数器
+id_counter = 0
 
 
 @app.route('/bind', methods=['POST'])
@@ -60,7 +60,7 @@ def login_device(id):
                 'ip': device['ip'],
             }
             try:
-                response = requests.post('https://yxms.byr.ink/api/login', json=login_data)
+                response = requests.post('http://localhost:3000/api/login', json=login_data)
                 response.raise_for_status()
                 return jsonify(response.json()), response.status_code
 
