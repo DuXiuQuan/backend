@@ -44,10 +44,6 @@ def login_device(id):
 
     for device in devices:
         if device['id'] == id:
-            device['username'] = username
-
-
-            # 进行登录请求
             login_data = {
                 'username': username,
                 'ip': device['ip'],
@@ -56,7 +52,7 @@ def login_device(id):
                 response = requests.post('http://localhost:3000/api/login', json=login_data)
                 response.raise_for_status()
                 device['logged_in'] = True
-                return jsonify(response.json()), response.status_code
+                return jsonify({"status": "success", "message": "Device logged in successfully!"})
 
             except requests.exceptions.RequestException as e:
                 return jsonify({'error': 'Login request failed', 'details': str(e)}), 500
@@ -69,7 +65,6 @@ def logout_device(id):
     for device in devices:
         if device['id'] == id:
             device['logged_in'] = False
-            device['username'] = None
             return jsonify({'status': 'success', 'message': 'Device logged out successfully'}), 200
 
     return jsonify({'status': 'error', 'message': 'Device not found or already logged out'}), 404
